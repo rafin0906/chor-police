@@ -91,7 +91,13 @@ const GamePage = () => {
     const code = codeForThis;
     if (!code) return;
 
-    const socket = io("http://localhost:8000", { withCredentials: true });
+    const socket = io(
+      import.meta.env.MODE === "production"
+        ? "https://chor-police-backend.onrender.com"
+        : "http://localhost:8000",
+      { withCredentials: true }
+    );
+
     socketRef.current = socket;
 
     socket.on("connect", () => {

@@ -43,7 +43,13 @@ export default function Lobby() {
 
             // create socket connection AFTER room/players loaded
             if (!socketRef.current) {
-                const socket = io("http://localhost:8000", { withCredentials: true });
+                const socket = io(
+                    import.meta.env.MODE === "production"
+                        ? "https://chor-police-backend.onrender.com"
+                        : "http://localhost:8000",
+                    { withCredentials: true }
+                );
+
                 socketRef.current = socket;
 
                 socket.on("connect", () => {
