@@ -98,8 +98,10 @@ const createRoom = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: true
-    }
+        secure: process.env.NODE_ENV === "production", // only secure in prod
+        sameSite: "none", // needed for cross-origin requests
+        maxAge: 60 * 60 * 1000, // 1 hour
+    };
 
 
     // respond with host, room, and set hostToken cookie
