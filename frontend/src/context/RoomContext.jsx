@@ -4,6 +4,7 @@ import axios from "axios";
 const RoomContext = createContext(null);
 
 export function RoomProvider({ children }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api/v1";
   const [roomCode, setRoomCodeState] = useState("");
   const [room, setRoom] = useState(null);
 
@@ -17,7 +18,7 @@ export function RoomProvider({ children }) {
   const loadRoomByCode = useCallback(async (code) => {
     if (!code) return null;
     try {
-      const res = await axios.get(`/api/v1/rooms/by-code/${encodeURIComponent(code)}`, { withCredentials: true });
+      const res = await axios.get(`${API_BASE}/rooms/by-code/${encodeURIComponent(code)}`, { withCredentials: true });
       const serverRoom = res?.data?.room || null;
       if (serverRoom) {
         setRoomCodeState(code);

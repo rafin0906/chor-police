@@ -10,6 +10,7 @@ export default function JoinButton({ roomCode: propRoomCode, nickname: propNickn
   const { players, setPlayers } = usePlayers();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api/v1";
 
   const handleJoin = async () => {
     const roomCode = (propRoomCode || "").trim();
@@ -29,7 +30,7 @@ export default function JoinButton({ roomCode: propRoomCode, nickname: propNickn
 
     try {
       const res = await axios.post(
-        "/api/v1/rooms/join",
+        `${API_BASE}/rooms/join`,
         { name: nickname, roomCode },
         { withCredentials: true }
       );

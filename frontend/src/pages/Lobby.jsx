@@ -25,6 +25,8 @@ export default function Lobby() {
     const [isHost, setIsHost] = useState(false);
     const [checkingHost, setCheckingHost] = useState(true);
 
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api/v1";
+
     useEffect(() => {
         const code = paramRoomCode || location.state?.roomCode || null;
         if (!code) return;
@@ -113,7 +115,7 @@ export default function Lobby() {
         let mounted = true;
         setCheckingHost(true);
         axios
-            .get(`/api/v1/rooms/${encodeURIComponent(code)}/is-host`, { withCredentials: true })
+            .get(`${API_BASE}/rooms/${encodeURIComponent(code)}/is-host`, { withCredentials: true })
             .then((res) => {
                 if (!mounted) return;
                 setIsHost(Boolean(res?.data?.isHost));
@@ -152,7 +154,7 @@ export default function Lobby() {
 
         setStartError(null);
         try {
-            await axios.get(`/api/v1/rooms/${encodeURIComponent(code)}/start/${encodeURIComponent(rounds)}`, {
+            await axios.get(`${API_BASE}/rooms/${encodeURIComponent(code)}/start/${encodeURIComponent(rounds)}`, {
                 withCredentials: true,
             });
             // DO NOT navigate to a plain "/game" (missing roomCode)

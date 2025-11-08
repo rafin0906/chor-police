@@ -14,6 +14,8 @@ export default function CreateJoinButtons() {
   const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api/v1";
+
   const handleCreateRoom = async () => {
     if (!nickname.trim()) {
       setShowError(true);
@@ -24,7 +26,7 @@ export default function CreateJoinButtons() {
 
     try {
       const res = await axios.post(
-        "/api/v1/rooms/generate-room",
+        `${API_BASE}/rooms/generate-room`,
         { name: nickname },
         { withCredentials: true }
       );
